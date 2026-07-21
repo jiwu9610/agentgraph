@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What is RAG and why does it reduce hallucination?",
+    "expected_source": "rag_overview.md"
+  },
+  {
+    "question": "How is similarity between two embedding vectors measured?",
+    "expected_source": "embeddings.md"
+  },
+  {
+    "question": "Which task type should documents be embedded with on Gemini?",
+    "expected_source": "embeddings.md"
+  },
+  {
+    "question": "Why must I send the whole conversation history every API call?",
+    "expected_source": "llm_basics.md"
+  },
+  {
+    "question": "What are tokens and why do they matter for cost?",
+    "expected_source": "llm_basics.md"
+  }
+]

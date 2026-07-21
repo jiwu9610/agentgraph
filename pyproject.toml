@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docsbot"
+version = "0.3.0"
+description = "Grounded document Q&A with a budgeted knowledge-graph agent and an instrumented performance harness, on Google Gemini."
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0.0",   # Gemini SDK (the new unified one; NOT google-generativeai)
+    "pydantic>=2.0",         # typed structured output
+    "numpy>=1.26",           # cosine similarity for the vector store
+    "python-dotenv>=1.0",    # load GEMINI_API_KEY from .env
+]
+
+[project.optional-dependencies]
+# httpx backs the FastAPI test client.
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "httpx>=0.27"]
+
+# Feature extras — install what you need, e.g.
+#   pip install -e ".[dev,persist]"
+#   pip install -e ".[dev,api]"
+#   pip install -e ".[dev,persist,api]"  # everything
+persist = ["chromadb>=0.5"]                                        # real vector DB (Chroma)
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.29", "pyjwt>=2.8"]  # the FastAPI service
+session = ["redis>=5.0"]                                           # Redis-backed chat sessions
+
+# Knowledge-graph agent + observability extras
+kg = []  # SQLite is stdlib; marker kept for symmetry / future graph libs
+obs = [
+    "arize-phoenix>=8.0",
+    "arize-phoenix-otel>=0.16",
+    "opentelemetry-api>=1.27",
+    "opentelemetry-sdk>=1.27",
+]
+
+[project.scripts]
+docsbot = "docsbot.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["docsbot*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Markers select one layer at a time, e.g. `pytest -m phase13`.
+addopts = ""
+asyncio_mode = "auto"
+markers = [
+    "phase2: production-RAG layer specs (persistence, reliability, retrieval, API)",
+    "phase3: knowledge-graph agent specs (graph, traversal, sessions, budgets, observability)",
+    "phase8: persistent vector store",
+    "phase9: reliability + observability",
+    "phase10: advanced retrieval + answer-quality eval",
+    "phase11: the FastAPI service",
+    "phase13: knowledge graph foundation",
+    "phase14: graph traversal agent",
+    "phase15: stateful sessions + checkpoints",
+    "phase16: cost budgets + caches",
+    "phase17: Phoenix / OpenTelemetry observability",
+    "phase4: performance/regression specs (instrumentation, latency, cost, failure, leaks+gate)",
+    "phase18: instrumentation (spans, counters, percentiles)",
+    "phase19: latency",
+    "phase20: cost",
+    "phase21: failure and waste under load",
+    "phase22: leaks and the regression gate",
+]

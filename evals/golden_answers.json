@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Which task type should documents be embedded with on Gemini?",
+    "expected": "RETRIEVAL_DOCUMENT (and queries use RETRIEVAL_QUERY)."
+  },
+  {
+    "question": "What does RAG do to reduce hallucination?",
+    "expected": "It grounds the answer in retrieved source text instead of the model's memory, and refuses when the context lacks the answer."
+  },
+  {
+    "question": "How is similarity between two embedding vectors measured?",
+    "expected": "Cosine similarity — the normalized dot product / angle between the vectors."
+  },
+  {
+    "question": "Why must the whole conversation history be re-sent each API call?",
+    "expected": "Because the API is stateless; the model keeps no memory between calls, so history is re-sent every turn."
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "description": "Multi-hop questions over corpus/northstar. path is the minimal correct edge chain (subject_id, predicate, object_id).",
+  "cases": [
+    {
+      "id": "owner-of-payments-api",
+      "question": "Who owns payments-api?",
+      "expect_refused": false,
+      "acceptable_path_suffixes": [
+        [
+          ["Person:mira-chen", "OWNS", "Service:payments-api"]
+        ]
+      ],
+      "answer_must_mention": ["Mira Chen"]
+    },
+    {
+      "id": "oncall-for-capture-outage",
+      "question": "Who should we page first when payments-api capture is failing?",
+      "expect_refused": false,
+      "acceptable_path_suffixes": [
+        [
+          ["Person:mira-chen", "ONCALL_FOR", "Service:payments-api"]
+        ]
+      ],
+      "answer_must_mention": ["Mira"]
+    },
+    {
+      "id": "inc1042-root-cause-owner",
+      "question": "For INC-1042, which datastore was the root cause, and who owns that datastore?",
+      "expect_refused": false,
+      "acceptable_path_suffixes": [
+        [
+          ["Incident:inc-1042", "CAUSED_BY", "Datastore:ledger-db"],
+          ["Person:sam-ortiz", "OWNS", "Datastore:ledger-db"]
+        ]
+      ],
+      "answer_must_mention": ["ledger-db", "Sam Ortiz"]
+    },
+    {
+      "id": "brightline-dependency-walk",
+      "question": "Brightline Retail checkout is failing. Which upstream datastore should we inspect first based on the documented dependency chain through payments-api?",
+      "expect_refused": false,
+      "acceptable_path_suffixes": [
+        [
+          ["Incident:inc-1042", "IMPACTS", "Customer:brightline-retail"],
+          ["Incident:inc-1042", "CAUSED_BY", "Datastore:ledger-db"]
+        ],
+        [
+          ["Service:checkout-web", "DEPENDS_ON", "Service:payments-api"],
+          ["Service:payments-api", "DEPENDS_ON", "Service:ledger-service"],
+          ["Service:ledger-service", "DEPENDS_ON", "Datastore:ledger-db"]
+        ]
+      ],
+      "answer_must_mention": ["ledger-db"]
+    },
+    {
+      "id": "mitigation-runbook",
+      "question": "Which runbook mitigated INC-1042?",
+      "expect_refused": false,
+      "acceptable_path_suffixes": [
+        [
+          ["Incident:inc-1042", "MITIGATED_BY", "Runbook:payments-latency"]
+        ]
+      ],
+      "answer_must_mention": ["payments-latency"]
+    },
+    {
+      "id": "unknown-service-refuse",
+      "question": "Who owns the billing-galaxy service?",
+      "expect_refused": true,
+      "acceptable_path_suffixes": [],
+      "answer_must_mention": []
+    },
+    {
+      "id": "budget-trap-wander",
+      "question": "List every person, team, service, datastore, customer, incident, and runbook and explain each relationship in the entire Northstar graph.",
+      "expect_refused": false,
+      "budget_trap": true,
+      "max_hops": 4,
+      "acceptable_path_suffixes": [],
+      "answer_must_mention": []
+    }
+  ]
+}
