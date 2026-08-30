@@ -1,0 +1,27 @@
+### BEFORE (origin/part4 broken code)  node=compute-node-B
+code under test: <worktree checkout of the origin/part4 baseline>
+--- --concurrency 8 ---
+ASK  (n=5, concurrency=8)
+========================================================================
+  total wall clock       1.420 s
+  p50 latency            0.851 s
+  p95 latency            1.416 s     (budget 0.130)
+  provider calls            55     (11.0 per ask, budget 4)
+  input tokens           37766     (7553 per ask, budget 3200)
+  cost                $0.003266     ($0.000653 per ask, budget $0.000340)
+  cache               {'hits': 0, 'misses': 5, 'hit_rate': 0.0, 'entries': 5}
+--- --turns 10 ---
+        1           8313    0.000711
+        2           7302    0.000634
+        3           7666    0.000662
+        4           7925    0.000681
+        5           9515    0.000800
+        6           9789    0.000822
+        7           8778    0.000745
+        8           9142    0.000772
+        9           9401    0.000791
+       10          10991    0.000911
+
+  sessions held in memory: 1
+  (if turn-10 costs several times turn-1, you are resending the whole transcript every turn)
+

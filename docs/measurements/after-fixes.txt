@@ -1,0 +1,68 @@
+### AFTER (credited baseline fixes merged — see README Credits)  Fri Aug 21 11:59:12 CDT 2026  node=compute-node-B
+--- full Part 4 spec run ---
+94 passed, 67 deselected, 1 warning in 22.86s
+
+--- report: baseline shape ---
+========================================================================
+INDEXING
+========================================================================
+  chunks indexed      49
+  wall clock             0.025 s
+  provider calls             1   (1 embed, 0 chat)
+  cost                $0.000654
+
+========================================================================
+ASK  (n=5, concurrency=1)
+========================================================================
+  total wall clock       0.447 s
+  p50 latency            0.089 s
+  p95 latency            0.090 s     (budget 0.130)
+  provider calls            20     (4.0 per ask, budget 4)
+  input tokens           12645     (2529 per ask, budget 3200)
+  cost                $0.001333     ($0.000267 per ask, budget $0.000340)
+  cache               {'hits': 0, 'misses': 5, 'hit_rate': 0.0, 'entries': 5}
+
+  calls by stage:
+    classify            5  ████████████████████████████
+    query_embed         5  ████████████████████████████
+    rerank              5  ████████████████████████████
+    answer              5  ████████████████████████████
+
+  where the wall clock went (self time = not in a child span):
+    stage          count   total_s    self_s    p95_s
+    generate           5     0.139     0.139    0.028  ████████████████████████████
+    rerank             5     0.129     0.129    0.026  ██████████████████████████
+    retrieve           5     0.125     0.125    0.026  █████████████████████████
+    classify           5     0.051     0.051    0.010  ██████████
+    ask                5     0.446     0.002    0.090  █
+
+  counters:
+    cache_miss           5
+
+
+--- report: --concurrency 8 ---
+ASK  (n=5, concurrency=8)
+========================================================================
+  total wall clock       0.135 s
+  p50 latency            0.113 s
+  p95 latency            0.133 s     (budget 0.130)
+  provider calls            20     (4.0 per ask, budget 4)
+  input tokens           12645     (2529 per ask, budget 3200)
+  cost                $0.001333     ($0.000267 per ask, budget $0.000340)
+  cache               {'hits': 0, 'misses': 5, 'hit_rate': 0.0, 'entries': 5}
+
+--- report: --turns 10 ---
+        1              0    0.000000
+        2           2795    0.000273
+        3           3052    0.000314
+        4           3341    0.000314
+        5           3277    0.000331
+        6           3352    0.000339
+        7           3311    0.000312
+        8           3348    0.000336
+        9           3341    0.000314
+       10           3277    0.000331
+
+  sessions held in memory: 1
+  (if turn-10 costs several times turn-1, you are resending the whole transcript every turn)
+

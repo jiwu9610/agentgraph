@@ -1,0 +1,56 @@
+### baseline  (Fri Aug 21 11:49:03 CDT 2026)  node=compute-node-A
+========================================================================
+INDEXING
+========================================================================
+  chunks indexed      49
+  wall clock             0.746 s
+  provider calls            49   (49 embed, 0 chat)
+  cost                $0.000654
+
+========================================================================
+ASK  (n=5, concurrency=1)
+========================================================================
+  total wall clock       1.365 s
+  p50 latency            0.273 s
+  p95 latency            0.273 s     (budget 0.130)
+  provider calls            55     (11.0 per ask, budget 4)
+  input tokens           37766     (7553 per ask, budget 3200)
+  cost                $0.003266     ($0.000653 per ask, budget $0.000340)
+  cache               {'hits': 0, 'misses': 5, 'hit_rate': 0.0, 'entries': 5}
+
+  calls by stage:
+    rerank             40  ████████████████████████████
+    classify            5  ████
+    query_embed         5  ████
+    answer              5  ████
+
+  where the wall clock went (self time = not in a child span):
+    [ Phase 18 not built yet — build Metrics to see this table ]
+
+
+### --asks 20
+  chunks indexed      49
+  wall clock             0.746 s
+  provider calls            49   (49 embed, 0 chat)
+  cost                $0.000654
+
+========================================================================
+ASK  (n=20, concurrency=1)
+========================================================================
+  total wall clock       5.468 s
+  p50 latency            0.273 s
+  p95 latency            0.274 s     (budget 0.130)
+  provider calls           220     (11.0 per ask, budget 4)
+  input tokens          151064     (7553 per ask, budget 3200)
+  cost                $0.013065     ($0.000653 per ask, budget $0.000340)
+  cache               {'hits': 0, 'misses': 20, 'hit_rate': 0.0, 'entries': 5}
+
+  calls by stage:
+    rerank            160  ████████████████████████████
+    classify           20  ████
+    query_embed        20  ████
+    answer             20  ████
+
+  where the wall clock went (self time = not in a child span):
+    [ Phase 18 not built yet — build Metrics to see this table ]
+
