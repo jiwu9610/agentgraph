@@ -1,0 +1,6 @@
+# The image installs its own dependencies and builds its own dist.
+node_modules
+dist
+.git
+.env
+.env.*

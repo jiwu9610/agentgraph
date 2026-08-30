@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.egg-info/
+.env
+.pytest_cache/
+.idea/
+
+# on-disk vector store
+.docsbot_db/
+
+# frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+
+# local SQLite graphs / sessions
+.docsbot_kg.sqlite
+.docsbot_kg_eval.sqlite
+.docsbot_sessions.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+.claude/

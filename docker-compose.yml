@@ -1,0 +1,37 @@
+# Local stack: backend API, static frontend, and Redis for chat sessions and
+# rate limiting.
+#
+#   docker compose up --build
+#
+# Backend:  http://localhost:8000   (reads secrets/settings from ./.env)
+# Frontend: http://localhost:5173   (nginx serving the built bundle on 80)
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    # GEMINI_API_KEY and other settings come from the local .env file, which is
+    # never baked into the image (.dockerignore excludes it).
+    env_file:
+      - .env
+    environment:
+      # Service-name DNS inside the compose network; overrides the
+      # localhost default in docsbot/config.py.
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:8-alpine
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
